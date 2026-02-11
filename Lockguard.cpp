@@ -1,36 +1,96 @@
-/******************************************************************************
 
-Welcome to GDB Online.
-  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
-  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
-  Code, Compile, Run and Debug online from anywhere in world.
+/**
+ * @file lock_guard_example.cpp
+ * @brief Demonstrates the use of std::lock_guard in C++ multithreading.
+ *
+ * std::lock_guard is a lightweight RAII wrapper
+ * used to manage mutex locking automatically.
+ *
+ * Key points:
+ * 1. Locks the mutex immediately when created.
+ * 2. Automatically unlocks when it goes out of scope.
+ * 3. Cannot be manually unlocked.
+ * 4. Cannot be copied.
+ */
 
-*******************************************************************************/
-#include <stdio.h>
-/*LOCK GUARD IN CPP. SYNTAX-> (std::lock_guard<mutex> lock(m1))
-// NOTES
-// 1. it is very lightweight wrapper for owing mutex on scoped basis.
-// 2. it aquires mutex lock the moment u create the obj of lock_guard
-// 3.it automatically removes the lock when it goes out of scope.
-//4 . you cannot explicitly unclock the lock_guard.
-//5. you cannot copy lock guard.*/
 #include <iostream>
 #include <thread>
 #include <mutex>
+
 using namespace std;
-std:: mutex m1;
+
+/// Global mutex used to protect shared data
+std::mutex m1;
+
+/// Shared resource
 int buffer = 0;
-void task(const char * threadnum, int loopfor){
-    std::lock_guard<mutex> lock(m1); //as the obj is created it aquires mutex lock and released when goes out of scope
-    for(int i = 0; i<loopfor; ++i){
-        buffer ++; // critical region
-        cout<<threadnum<<" "<<buffer<<endl;
+
+/**
+ * @brief Function executed by each thread.
+ *
+ * This function:
+ * - Locks the mutex using lock_guard
+ * - Modifies shared variable (buffer)
+ * - Prints thread name and buffer value
+ *
+ * @param threadnum Name of the thread
+ * @param loopfor Number of times to increment buffer
+ */
+void task(const char* threadnum, int loopfor) {
+
+    /**
+     * lock_guard acquires the lock immediately.
+     * The mutex will automatically unlock
+     * when this function ends (scope ends).
+     */
+    std::lock_guard<std::mutex> lock(m1);
+
+    for (int i = 0; i < loopfor; ++i) {
+        buffer++;  // Critical section
+        cout << threadnum << " " << buffer << endl;
     }
-}// unlocks here when it goes out of scope
-int main(){
-    thread t1(task ,"t1", 10);
-    thread t2 (task,"t2", 10);
+
+} // Mutex automatically unlocked here
+
+
+/**
+ * @brief Entry point of the program.
+ *
+ * Creates two threads that modify a shared variable.
+ * lock_guard ensures safe access to shared resource.
+ */
+int main() {
+
+    thread t1(task, "t1", 10);
+    thread t2(task, "t2", 10);
+
     t1.join();
     t2.join();
+
     return 0;
 }
+
+/*
+----------------------------------------
+WHY USE lock_guard?
+----------------------------------------
+
+Without mutex:
+Multiple threads may modify buffer at the same time,
+causing race condition and unpredictable output.
+
+With lock_guard:
+Only one thread enters the critical section at a time.
+
+Important:
+lock_guard follows RAII principle —
+Resource Acquisition Is Initialization.
+
+This makes code:
+ Safer
+ Cleaner
+ Exception safe
+ Easier to maintain
+*/
+
+

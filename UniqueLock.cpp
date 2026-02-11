@@ -1,12 +1,127 @@
-/******************************************************************************
+/**
+ * @file UniqueLockExample.cpp
+ * @brief Demonstrates usage of std::unique_lock with std::mutex in multithreading.
+ *
+ * This program shows:
+ * - How to protect shared resources using mutex.
+ * - How to use std::unique_lock with deferred locking.
+ * - Difference between automatic and manual locking.
+ */
 
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
-Code, Compile, Run and Debug online from anywhere in world.
+#include <iostream>
+#include <thread>
+#include <mutex>
 
-*******************************************************************************/
+using namespace std;
+
+/**
+ * @brief Global mutex to protect shared resource.
+ */
+std::mutex m1;
+
+/**
+ * @brief Shared resource accessed by multiple threads.
+ */
+int buffer = 0;
+
+
+/**
+ * @brief Thread task function.
+ *
+ * Demonstrates deferred locking using std::unique_lock.
+ *
+ * @param threadnumber Identifier of the thread.
+ * @param loopfor Number of times to increment buffer.
+ */
+void task(const char* threadnumber, int loopfor) {
+
+    /**
+     * @brief Create unique_lock with deferred locking.
+     *
+     * std::defer_lock means:
+     * - Mutex is NOT locked immediately.
+     * - We must call lock() manually.
+     */
+    std::unique_lock<std::mutex> lock(m1, std::defer_lock);
+
+    // ---- Code here runs WITHOUT lock ----
+    // You can place non-critical section code here
+
+    /**
+     * @brief Manually locking the mutex.
+     */
+    lock.lock();
+
+    /**
+     * @brief Critical section.
+     * Only one thread can execute this part at a time.
+     */
+    for (int i = 0; i < loopfor; ++i) {
+        buffer++;
+        std::cout << threadnumber << " " << buffer << std::endl;
+    }
+
+    /**
+     * @note No need to call lock.unlock().
+     * Destructor of unique_lock automatically unlocks the mutex.
+     */
+}
+
+
+/**
+ * @brief Entry point of the program.
+ *
+ * Creates two threads that modify shared buffer.
+ * Mutex ensures safe access to shared resource.
+ */
+int main() {
+
+    /**
+     * @brief Creating threads.
+     */
+    std::thread t1(task, "t1", 5);
+    std::thread t2(task, "t2", 5);
+
+    /**
+     * @brief Waiting for threads to complete.
+     */
+    t1.join();
+    t2.join();
+
+    return 0;
+}
+
+
+/**
+ * @section LockGuardVsUniqueLock Difference Between lock_guard and unique_lock
+ *
+ * @subsection lock_guard
+ * - Lightweight
+ * - Locks immediately
+ * - Unlocks automatically at end of scope
+ * - Cannot manually unlock/relock
+ *
+ * @subsection unique_lock
+ * - More flexible
+ * - Supports:
+ *      - Deferred locking (std::defer_lock)
+ *      - Manual lock/unlock
+ *      - try_lock()
+ *      - timed locking
+ *      - Move semantics
+ *
+ * @note Use lock_guard when simple scoped locking is needed.
+ * @note Use unique_lock when advanced locking control is required.
+ *
+ * @warning Always protect shared data with a mutex
+ *          to prevent race conditions.
+ */
+
+
+
+
 /*
+BOTTOM LINE:
 unique_lock is used mostly when u want to lock a mutex 
 unique_lock is used when you need more flexibility, like deferred locking,
 timed locking, or manual unlocks inside the scope.”
@@ -18,39 +133,3 @@ lock_guard → “I just need to lock & unlock automatically, nothing fancy”
 
 unique_lock → “I may want to lock, unlock, move, defer, or try/timed lock”
 */
-
-#include <iostream>
-#include<iostream>
-#include <thread>
-#include <mutex>
-using namespace std;
-std::mutex m1;
-int buffer=0;
-/* EXAMPLE 1
-void task(const char * threadnumber, int loopfor){
-    std::unique_lock<std::mutex> lock(m1);
-    for(int i = 0; i<loopfor; ++i){
-        buffer++;
-        std::cout << threadnumber<<" "<<buffer<< std::endl;
-    }
-}
- */
- // EXample t
- void task(const char* threadnumber, int loopfor){
-     std::unique_lock<std::mutex> lock(m1, std::defer_lock); // does npot call lock on mutex m1, because it is using defer_lock lock
-     
-     // here in middle i can have n number of code without any lock and after that i can lock it
-     lock.lock(); // here i have locked it by explicitly saying it manullay to lock the mutex m1.
-     for(int i=0; i<loopfor; ++i){
-         buffer++;
-         std::cout<<threadnumber<<" "<<buffer<<std::endl;
-     }
-     //lock.unlock is not needed because we are using unique_lock i handelles it automatically as it will be unlock by the destructor of unique lock.
- } 
- int main(){
-    std::thread t1(task, " t1", 5);
-    std::thread t2 (task, " t2", 5);
-    t1.join();
-    t2.join();
-    return 0;
-}

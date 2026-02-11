@@ -1,4 +1,4 @@
-/******************************************************************************
+******************************************************************************
 
 Welcome to GDB Online.
 GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
@@ -11,8 +11,8 @@ TOPIC:
 DEADLOCK-->
 A deadlock happens when two or more threads are permanently blocked, each waiting for a resource held by the other.
 
-👉 No thread can move forward.
-👉 Program appears “stuck”.
+No thread can move forward.
+Program appears “stuck”.
 */
 #include <iostream>
 #include <thread>
