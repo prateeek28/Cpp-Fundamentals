@@ -1,5 +1,6 @@
 /*
-1. performs implicit conversion between two types 
+* @file Static_cast
+1. Following performs implicit conversion between two types 
 */
 
 int main(){
@@ -20,9 +21,10 @@ why we do static cast which is easier to find.
 
 
 /*
+EXAMPLE 2
 2. Use static_cast when conversion between types is provided
  through conversion operator or conversion constructor.
- Program 2
+ 
 
  class Int {
 

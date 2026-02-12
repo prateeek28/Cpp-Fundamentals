@@ -1,41 +1,4 @@
 
-/*
-Topic: FUTURE AND PROMISE
---> They are used for one-time communication between threads.
-
--> One thread produces a value
--> Another thread consumes the value
-
-Think of it like this:
-
-promise = “I will give you a value later”
-future = “I’ll wait and receive that value”
-
-Q. Why do we need them?
-
-Because:
-
-Threads don’t return values directly
-
-Global variables are unsafe
-
-Condition variables are complex
-
-future & promise solve this cleanly
-
-Basic Flow (IMPORTANT)
-Thread A → promise.set_value()
-             
-Thread B → future.get()
-
-
-promise sets the result
-
-future gets the result
-
-*/
-
-
 /**
  * @file future_promise_example.cpp
  * @brief Demonstrates std::promise and std::future in C++.
@@ -54,36 +17,15 @@ future gets the result
 #include <iostream>
 #include <thread>
 #include <future>
-
 using namespace std;
 
-/**
- * @brief Function executed in a separate thread.
- *
- * This function calculates a value
- * and sets it inside the promise.
- *
- * @param p Promise object used to send result.
- */
 void add(std::promise<int> p) {
 
     int result = 10 + 20;
 
-    /**
-     * set_value() stores the result inside promise.
-     * The associated future will receive this value.
-     */
     p.set_value(result);
 }
 
-/**
- * @brief Entry point of the program.
- *
- * Demonstrates:
- * - Creating promise and future
- * - Passing promise to a thread
- * - Receiving value using future
- */
 int main() {
 
     /// Step 1: Create promise
@@ -97,7 +39,6 @@ int main() {
 
     /**
      * Step 3: Start thread and move promise into it.
-     *
      * Important:
      * promise cannot be copied,
      * so we use std::move().
@@ -106,7 +47,6 @@ int main() {
 
     /**
      * Step 4: Get the result.
-     *
      * get():
      * - Waits until value is available
      * - Returns the value

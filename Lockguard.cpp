@@ -25,17 +25,6 @@ std::mutex m1;
 /// Shared resource
 int buffer = 0;
 
-/**
- * @brief Function executed by each thread.
- *
- * This function:
- * - Locks the mutex using lock_guard
- * - Modifies shared variable (buffer)
- * - Prints thread name and buffer value
- *
- * @param threadnum Name of the thread
- * @param loopfor Number of times to increment buffer
- */
 void task(const char* threadnum, int loopfor) {
 
     /**
@@ -52,13 +41,6 @@ void task(const char* threadnum, int loopfor) {
 
 } // Mutex automatically unlocked here
 
-
-/**
- * @brief Entry point of the program.
- *
- * Creates two threads that modify a shared variable.
- * lock_guard ensures safe access to shared resource.
- */
 int main() {
 
     thread t1(task, "t1", 10);

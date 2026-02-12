@@ -1,7 +1,5 @@
 /**
  * @file encapsulation_example.cpp
- * @brief Demonstrates Encapsulation in C++.
- *
  * Encapsulation means:
  * - Binding data and functions together inside a class.
  * - Restricting direct access to data using access specifiers.
@@ -14,54 +12,21 @@
 #include <iostream>
 using namespace std;
 
-/**
- * @class Bank
- * @brief A simple Bank class demonstrating encapsulation.
- *
- * The balance variable is kept private,
- * meaning it cannot be accessed directly from outside the class.
- *
- * Access is controlled through:
- * - setBalance()
- * - getBalance()
- */
 class Bank {
 private:
     int balance;  ///< Private data member (hidden from outside access)
 
 public:
 
-    /**
-     * @brief Sets the account balance.
-     *
-     * This method allows controlled modification
-     * of the private data member.
-     *
-     * @param b The balance amount to set.
-     */
     void setBalance(int b) {
         balance = b;
     }
 
-    /**
-     * @brief Returns the current account balance.
-     *
-     * Provides controlled read access
-     * to the private data member.
-     *
-     * @return int Current balance.
-     */
     int getBalance() {
         return balance;
     }
 };
 
-/**
- * @brief Entry point of the program.
- *
- * Creates a Bank object and sets/gets balance
- * using public methods.
- */
 int main() {
 
     Bank b1;

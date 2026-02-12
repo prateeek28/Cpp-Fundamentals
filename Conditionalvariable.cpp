@@ -1,7 +1,7 @@
 
 /**
- * @file condition_variable_example.cpp
- * @brief Demonstrates how to use std::condition_variable in C++ threading.
+ * condition_variable_example.cpp
+ * Demonstrates how to use std::condition_variable in C++ threading.
  *
  * This example shows:
  * - How one thread waits for a condition.
@@ -48,7 +48,7 @@ void addmoney(int money) {
 }
 
 /**
- * @brief Withdraws money from the shared balance.
+ * Withdraws money from the shared balance.
  *
  * This function:
  * - Waits until balance is not zero
@@ -80,12 +80,6 @@ void withdrawmoney(int money) {
     }
 }
 
-/**
- * @brief Entry point of program.
- *
- * Thread 1 tries to withdraw money.
- * Thread 2 adds money after a short delay.
- */
 int main() {
 
     thread t1(withdrawmoney, 500);
@@ -106,28 +100,19 @@ int main() {
 
 //Bottom line
 /*
-TOPIC: Condition Variable In C++ Threading
-IMPORTANT POINT: CV are used for two purpose
-
 A. Notify other threads
 B. Waiting for some conditions
-
 1. Condition Variable allows running threads to wait on some conditions 
 and once those conditions are met the waiting thread is notified using:
 a. notify one();
 b. notify all();
-
 2. You need mutex to use condition variable.
-
 3. If some thread want to wait on some condition then it has to do these things:
 a. Acquire the mutex lock using std::unique_lock<std::mutex> lock(m);.
 b. Execute wait, wait for, or wait_until. The wait operations atomically release the mutex
 and suspend the execution of the thread.
 c. When the condition variable is notified, the thread is awakened, and the mutex is atomically reacquired.
-
 The thread should then check the condition and resume waiting if the wake up was spurious.
 NOTE:
 1. Condition variables are used to synchronize two or more threads.
-2. Best use case of condition variable is Producer/Consumer problem..
-
 */

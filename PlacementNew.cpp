@@ -13,47 +13,18 @@
 
 using namespace std;
 
-/**
- * @class base
- * @brief Simple class to observe constructor and destructor calls.
- *
- * This class prints a message whenever:
- * - The constructor runs
- * - The destructor runs
- *
- * It helps us clearly see how object lifetime works.
- */
+
 class base {
-    int a;  ///< Just a dummy variable (used to give the object some size)
+    int a;  
 
 public:
-
-    /**
-     * @brief Constructor
-     *
-     * Called when the object is created.
-     */
     base() {
         cout << "Constructor called" << endl;
     }
-
-    /**
-     * @brief Destructor
-     *
-     * Called when the object is destroyed.
-     */
     ~base() {
         cout << "Destructor called" << endl;
     }
 };
-
-/**
- * @brief Main function
- *
- * Shows two ways of creating objects:
- * 1. Normal dynamic allocation
- * 2. Placement new
- */
 int main() {
 
     cout << "Normal way:" << endl;

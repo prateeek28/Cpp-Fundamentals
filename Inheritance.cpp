@@ -145,8 +145,8 @@ public:
         cout << "Boat is sailing" << endl;
     }
 };
-
-class AmphibiousVehicle : public Car, public Boat {  // Hybrid inheritance
+// Hybrid inheritance
+class AmphibiousVehicle : public Car, public Boat {  
 public:
     void operate() {
         cout << "Operating amphibious vehicle" << endl;

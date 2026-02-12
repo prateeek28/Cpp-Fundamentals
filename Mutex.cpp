@@ -25,13 +25,6 @@ int MyAmount = 0;
 /// Mutex to protect shared resource
 std::mutex m;
 
-/**
- * @brief Function executed by multiple threads.
- *
- * This function increments the shared variable.
- * Since multiple threads access the same data,
- * we protect it using a mutex.
- */
 void addmoney() {
 
     /**
@@ -48,14 +41,6 @@ void addmoney() {
     m.unlock();
 }
 
-/**
- * @brief Entry point of the program.
- *
- * Creates multiple threads that modify
- * the same shared variable.
- *
- * Mutex ensures safe execution.
- */
 int main() {
 
     thread t1(addmoney);
@@ -95,29 +80,3 @@ IMPORTANT CONCEPTS
    Prevents race condition by allowing
    only one thread at a time to execute
    the critical section.
-
-----------------------------------------
-NOTE:
-----------------------------------------
-
-Using m.lock() and m.unlock() works,
-but it is not exception safe.
-
-Better approach in real projects:
-Use std::lock_guard or std::unique_lock
-for automatic unlocking.
-*/
-
-
-/*
-BOTTOM LINE
-mutex in cpp? | why to use mutex? | what is race conmdition how to solve it?
-what is critical section.
-MUTEX : mutual exculusion(samjhota).
-RACE CONDITION :
-1.It is a situation where two or more thread / process happens to change OR modifiy a common data at a time.
-2.If there is a race condition then we have to protect it and that thing i called critical section/region.
-MUTEX:
-1.Mutex is used to avoid race condition
-2.we use lock() and unlock() to avoid race condition.
-*/

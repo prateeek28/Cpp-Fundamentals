@@ -11,33 +11,24 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
-
 using namespace std;
 
-/**
- * @brief Global mutex to protect shared resource.
- */
+//Global mutex to protect shared resource.
 std::mutex m1;
-
-/**
- * @brief Shared resource accessed by multiple threads.
- */
+// Shared resource accessed by multiple threads.
 int buffer = 0;
 
 
 /**
- * @brief Thread task function.
- *
+ * Thread task function.
  * Demonstrates deferred locking using std::unique_lock.
- *
  * @param threadnumber Identifier of the thread.
  * @param loopfor Number of times to increment buffer.
  */
 void task(const char* threadnumber, int loopfor) {
 
     /**
-     * @brief Create unique_lock with deferred locking.
-     *
+     * Create unique_lock with deferred locking.
      * std::defer_lock means:
      * - Mutex is NOT locked immediately.
      * - We must call lock() manually.
@@ -47,13 +38,10 @@ void task(const char* threadnumber, int loopfor) {
     // ---- Code here runs WITHOUT lock ----
     // You can place non-critical section code here
 
-    /**
-     * @brief Manually locking the mutex.
-     */
     lock.lock();
 
     /**
-     * @brief Critical section.
+     * Critical section.
      * Only one thread can execute this part at a time.
      */
     for (int i = 0; i < loopfor; ++i) {
@@ -67,41 +55,25 @@ void task(const char* threadnumber, int loopfor) {
      */
 }
 
-
-/**
- * @brief Entry point of the program.
- *
- * Creates two threads that modify shared buffer.
- * Mutex ensures safe access to shared resource.
- */
 int main() {
-
-    /**
-     * @brief Creating threads.
-     */
     std::thread t1(task, "t1", 5);
     std::thread t2(task, "t2", 5);
-
-    /**
-     * @brief Waiting for threads to complete.
-     */
     t1.join();
     t2.join();
-
     return 0;
 }
 
 
 /**
  * @section LockGuardVsUniqueLock Difference Between lock_guard and unique_lock
- *
- * @subsection lock_guard
+
+ *  lock_guard
  * - Lightweight
  * - Locks immediately
  * - Unlocks automatically at end of scope
  * - Cannot manually unlock/relock
  *
- * @subsection unique_lock
+ *  unique_lock
  * - More flexible
  * - Supports:
  *      - Deferred locking (std::defer_lock)

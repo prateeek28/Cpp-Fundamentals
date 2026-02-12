@@ -14,9 +14,9 @@ int main()
 const int a1 =10;
 const int *b1 = &a1;
 /*
-//removing the const of b1 pointer so that we can change the a1
-//but you must know that b1 contains the address of a1 and a1 is a const var can't be changed right?
-//and then we are trying to pass value in it through assigning d1 = 15 thats WRONG it will compile but wont run.
+removing the const of b1 pointer so that we can change the a1
+but you must know that b1 contains the address of a1 and a1 is a const var can't be changed right?
+and then we are trying to pass value in it through assigning d1 = 15 thats WRONG it will compile but wont run.
 */
 int *d = const_cast <int*> (b1);
 int *d1 = const_cast<int*> (b1);
@@ -25,12 +25,11 @@ int *d1 = const_cast<int*> (b1);
 cout<<a1<<endl;
 cout<<*d1<<endl;
 /*
-Here we are confused that thismust show UB but complier checks a1 at compile time and it sees its 10 so it replace that at the place of a1
+Here we are confused that this must show UB but complier checks a1 at compile time and it sees its 10 so it replace that at the place of a1
 where as d1 must be there are the place of a1 but thats not possible at compile time it replaces that valuse as it is we have assigned
 */
 
 //Lets write a valid code
-
 int a2 =20;
 const int *b2 = &a2;
 int *d2 = const_cast<int*>(b2);
@@ -39,20 +38,11 @@ cout<<a2;
 // as i said this is Valid see the output shows that its 30.
 return 0;
 }
-
-
-
-
-//2.when we need to call the 3'rd party library 
-//where it is taking Variable/ object as non-const but not changing that.
-
-
 //Demo library u cant change any library this is just for demo.
 void thirdPartyLibrary(int*x){
     int k =10;
     cout<< k+*(x);
 }
-
 int main(){
     const int x =20;
     //Here is a situation where u have to pass the value to an int pointer where it is not taking constant int value so u have to cast that pointer value and then u have to send it.

@@ -17,16 +17,7 @@
 
 #include <iostream>
 #include <cstring>
-
 using namespace std;
-
-/**
- * @class Employee
- * @brief Represents an employee with dynamically allocated name.
- *
- * This class manually manages dynamic memory (char*),
- * so it implements the Rule of Five.
- */
 class Employee {
 private:
     char* name;      ///< Dynamically allocated name
@@ -35,8 +26,7 @@ private:
 public:
 
     /**
-     * @brief Default Constructor
-     *
+      Default Constructor
      * Allocates empty string and initializes balance to 0.
      */
     Employee() {
@@ -46,10 +36,9 @@ public:
     }
 
     /**
-     * @brief Parameterized Constructor
-     *
-     * @param n Employee name
-     * @param bal Employee balance
+     *  Parameterized Constructor
+     *  n Employee name
+     *  bal Employee balance
      */
     Employee(const char* n, double bal) {
         name = new char[strlen(n) + 1];
@@ -58,8 +47,7 @@ public:
     }
 
     /**
-     * @brief Copy Constructor (Deep Copy)
-     *
+     * Copy Constructor (Deep Copy)
      * Allocates new memory and copies data.
      */
     Employee(const Employee& other) {
@@ -69,8 +57,7 @@ public:
     }
 
     /**
-     * @brief Copy Assignment Operator (Deep Copy)
-     *
+     * Copy Assignment Operator (Deep Copy)
      * Frees old memory and copies new data.
      */
     Employee& operator=(const Employee& other) {
@@ -85,8 +72,7 @@ public:
     }
 
     /**
-     * @brief Move Constructor
-     *
+     * Move Constructor
      * Transfers ownership of resources
      * instead of copying them.
      */
@@ -99,8 +85,7 @@ public:
     }
 
     /**
-     * @brief Move Assignment Operator
-     *
+     * Move Assignment Operator
      * Releases current resource and
      * takes ownership of other's resource.
      */
@@ -117,31 +102,15 @@ public:
         return *this;
     }
 
-    /**
-     * @brief Displays employee details.
-     */
     void display() const {
         cout << (name ? name : "NULL") << " " << balance << endl;
     }
 
-    /**
-     * @brief Destructor
-     *
-     * Releases dynamically allocated memory.
-     */
     ~Employee() {
         delete[] name;
     }
 };
 
-/**
- * @brief Entry point of the program.
- *
- * Demonstrates:
- * - Copy assignment
- * - Move assignment
- * - Deep copy behavior
- */
 int main() {
 
     Employee e1("Prateek", 900);

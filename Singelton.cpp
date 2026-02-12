@@ -10,20 +10,16 @@
 #include <iostream>
 using namespace std;
 
-/**
- * @class Singleton
- * @brief A class that allows only one object to be created.
- */
 class Singleton {
 private:
 
     /**
-     * @brief Static pointer that holds the single instance.
+     * Static pointer that holds the single instance.
      */
     static Singleton* instance;
 
     /**
-     * @brief Private constructor to prevent direct object creation.
+     * Private constructor to prevent direct object creation.
      */
     Singleton() {
         cout << "Singleton Constructor Called\n";
@@ -32,11 +28,9 @@ private:
 public:
 
     /**
-     * @brief Returns the single instance of the class.
-     *
+     *  Returns the single instance of the class.
      * If the instance does not exist, it creates one.
      * Otherwise, it returns the already created instance.
-     *
      * @return Pointer to the Singleton object.
      */
     static Singleton* getInstance() {
@@ -48,33 +42,19 @@ public:
         return instance;
     }
 
-    /**
-     * @brief Displays a confirmation message.
-     */
     void show() {
         cout << "I am Singleton Object\n";
     }
 
-    /**
-     * @brief Destructor.
-     */
     ~Singleton() {
         cout << "Singleton Destroyed\n";
     }
 };
 
-/**
- * @brief Initialize static member to nullptr.
- */
+
+ //Initialize static member to nullptr.
 Singleton* Singleton::instance = nullptr;
 
-
-/**
- * @brief Entry point of the program.
- *
- * Demonstrates that multiple calls to getInstance()
- * return the same object.
- */
 int main() {
 
     Singleton* s1 = Singleton::getInstance();
