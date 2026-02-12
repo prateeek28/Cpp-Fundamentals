@@ -18,7 +18,6 @@ int main() {
 
     return 0;
 }
-
 /*
 BOTTOM LINE:
 Explanation:
@@ -48,11 +47,11 @@ int main() {
 
     return 0;
 }
-
 /*
 BOTTOM LINE:
 decltype(multiply(...)) becomes double.
 */
+
 
 
 /*
