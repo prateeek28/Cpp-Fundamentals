@@ -28,17 +28,17 @@ void add(std::promise<int> p) {
 
 int main() {
 
-    /// Step 1: Create promise
+    /// 1: Create promise
     std::promise<int> p;
 
     /**
-     * Step 2: Get future from promise.
+     * 2: Get future from promise.
      * future is linked to this promise.
      */
     std::future<int> f = p.get_future();
 
     /**
-     * Step 3: Start thread and move promise into it.
+     * 3: Start thread and move promise into it.
      * Important:
      * promise cannot be copied,
      * so we use std::move().
@@ -46,7 +46,7 @@ int main() {
     std::thread t(add, std::move(p));
 
     /**
-     * Step 4: Get the result.
+     * 4: Get the result.
      * get():
      * - Waits until value is available
      * - Returns the value
@@ -59,25 +59,20 @@ int main() {
 }
 
 /*
-----------------------------------------
 WHY USE future & promise?
-----------------------------------------
-
 1. Threads cannot directly return values.
 2. Global variables are unsafe.
 3. Condition variables are more complex.
 
 future & promise provide:
-✔ Safe communication
-✔ Clean design
-✔ Automatic synchronization
+-> Safe communication
+-> Clean design
+-> Automatic synchronization
 
-----------------------------------------
-REAL-WORLD ANALOGY
-----------------------------------------
+REAL-WORLD ANALOGY:
 
-promise  → "I will give you the result later."
-future   → "Okay, I will wait and receive it."
+promise  -> "I will give you the result later."
+future   -> "Okay, I will wait and receive it."
 
 Producer thread sets value.
 Consumer thread gets value.

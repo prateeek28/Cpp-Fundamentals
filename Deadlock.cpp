@@ -2,7 +2,8 @@
 /*
 TOPIC:
 DEADLOCK-->
-A deadlock happens when two or more threads are permanently blocked, each waiting for a resource held by the other.
+A deadlock happens when two or more threads are permanently blocked,
+each waiting for a resource held by the other.
 No thread can move forward.
 Program appears “stuck”.
 */

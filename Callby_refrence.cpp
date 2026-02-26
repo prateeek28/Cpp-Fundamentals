@@ -86,7 +86,6 @@ int main(){
     y = 20;
     int &x = arr[15];
     x = 15;
-    
     for(int i= 0; i<=20; i++){
         cout<<arr[i]<<endl;
     }

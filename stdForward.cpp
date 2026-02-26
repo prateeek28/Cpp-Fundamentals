@@ -15,12 +15,13 @@ void process(int&& x)
 template <typename T>
 void wrapper(T&& arg) {
   /*
-   // process(arg); // arg is always treated as lvalue here
+  process(arg); //arg is always treated as lvalue here
   Why?
   Because inside wrapper, arg has a name → and anything with a name is an lvalue,
   even if it originally was rvalue.
   */
-    process(std::forward<T>(arg)); // Preserves lvalue/rvalue type.. perfect forwarding
+
+   process(std::forward<T>(arg));//Preserves lvalue/rvalue type.. perfect forwarding
 }
 
 int main() {
